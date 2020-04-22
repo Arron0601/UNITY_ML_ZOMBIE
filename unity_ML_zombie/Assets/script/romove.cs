@@ -23,11 +23,7 @@ public class romove : MonoBehaviour
       if (ani.GetCurrentAnimatorStateInfo(0).IsName("Z_walk")) return; 
           
             float v = Input.GetAxis("Vertical");
-    //世界座標
-    //rig.AddForce(0,0,speed*v);
-    //區域座標
-    //tran.right區域座標x軸
-    //tran.up   區域座標y軸
+
     rig.AddForce(tran.forward* speed * v *Time.deltaTime);//區域座標z軸
         ani.SetBool("走路開關", v != 0);
            
