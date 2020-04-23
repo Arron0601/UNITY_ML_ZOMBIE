@@ -42,11 +42,11 @@ public class ROBIE :Agent
 
         //指定隨機座標給各位
 
-        Vector3 PosRobie = new Vector3(Random.Range(-3f, -1f), 0.1f, Random.Range(-4f, -2f));
+        Vector3 PosRobie = new Vector3(Random.Range(-3f, 2f), 0.1f, Random.Range(-4f, -2f));
         transform.position = PosRobie;
-        Vector3 PosBALL  = new Vector3(Random.Range(-0.5f, 2f), 0.1f, Random.Range(-0.5f, 0));
+        Vector3 PosBALL  = new Vector3(Random.Range(-0.5f, 0f), 0.1f, Random.Range(-0.5f, 0));
         rigBALL.position = PosBALL;
-        Vector3 PosDEADBALL = new Vector3(Random.Range(-1f, 0f), 0.1f, Random.Range(-1f, 1f));
+        Vector3 PosDEADBALL = new Vector3(Random.Range(-1f, 2f), 0.1f, Random.Range(-1f, 1f));
         rigDEADBALL.position = PosDEADBALL;
 
         BALL.complete = false;
