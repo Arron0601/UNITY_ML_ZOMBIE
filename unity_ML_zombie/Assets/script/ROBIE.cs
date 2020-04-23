@@ -36,16 +36,17 @@ public class ROBIE :Agent
         rigBALL.angularVelocity = Vector3.zero;
         rigDEADBALL.velocity = Vector3.zero;
         rigDEADBALL.angularVelocity = Vector3.zero;
-        
-       
+
+
+
 
         //指定隨機座標給各位
-      
-        Vector3 PosRobie = new Vector3(Random.Range(-3f, 3f), 0.1f, Random.Range(-4f, -2f));
+
+        Vector3 PosRobie = new Vector3(Random.Range(-3f, -1f), 0.1f, Random.Range(-4f, -2f));
         transform.position = PosRobie;
-        Vector3 PosBALL  = new Vector3(Random.Range(-3f, 3f), 0.1f, Random.Range(-3f, 2f));
+        Vector3 PosBALL  = new Vector3(Random.Range(-0.5f, 2f), 0.1f, Random.Range(-0.5f, 0));
         rigBALL.position = PosBALL;
-        Vector3 PosDEADBALL = new Vector3(Random.Range(-4f, 3.5f), 0.1f, Random.Range(-3f, 3f));
+        Vector3 PosDEADBALL = new Vector3(Random.Range(-1f, 0f), 0.1f, Random.Range(-1f, 1f));
         rigDEADBALL.position = PosDEADBALL;
 
         BALL.complete = false;
@@ -59,18 +60,20 @@ public class ROBIE :Agent
         sensor.AddObservation(transform.position);
         sensor.AddObservation(rigBALL.position);
         sensor.AddObservation(rigDEADBALL.position);
+
         sensor.AddObservation(rigRobie.velocity.x);
         sensor.AddObservation(rigRobie.velocity.z);
     }
 
     public override void OnActionReceived(float[] vectorAction)
-    {
+    { 
+        animator.SetBool("走路開關", speed != 0);
         //使用參數控制機器人
         Vector3 control = Vector3.zero;
         control.x = vectorAction[0];
         control.z = vectorAction[1];
         rigRobie.AddForce(control * speed);
-        animator.SetBool("走路開關", speed != 0);
+       
        
 
        
@@ -80,17 +83,20 @@ public class ROBIE :Agent
         if (BALL.complete) 
         {
             SetReward(1);
-            EndEpisode();
+            EndEpisode(); 
+        
         }
       
-        //失敗 
-        if(DEADBALL.complete)
+      
+
+        if( rigRobie.position.y<0 || rigBALL.position.y<0)
         {
             SetReward(-1);
+            
             EndEpisode();
-        }
-
-        if(rigDEADBALL.position.y<0|| transform.position.y<0 || rigBALL.position.y<0)
+          
+        } 
+       if(DEADBALL.complete||rigDEADBALL.position.y < 0)
         {
             SetReward(-1);
             EndEpisode();
@@ -103,14 +109,9 @@ public class ROBIE :Agent
         action[0] = Input.GetAxis("Horizontal");
         action[1] = Input.GetAxis("Vertical");
      
-        animator.SetBool("走路開關",speed != 0);
         return action;
     }
-    
-    
-
-    public Transform tran;
-    public float turn = 20.5f;
+ 
 
     /*
     private void Update()
